@@ -13,19 +13,22 @@ public class VideoItem {
     public String title;
     public String videoUrl;
     public String duration;
+    public String thumbnailUrl;
 
-    private VideoItem(String title, String videoUrl, String duration){
+    public VideoItem(String title, String videoUrl, String duration, String thumbnailUrl){
         this.title = title;
         this.videoUrl = videoUrl;
         this.duration = duration;
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     @NonNull
-    public static VideoItem readItem(XmlPullParser parser, String ns) throws XmlPullParserException, IOException{
+    public VideoItem readItem(XmlPullParser parser, String ns) throws XmlPullParserException, IOException{
         parser.require(XmlPullParser.START_TAG, ns, "item");
         String title = null;
         String videoUrl = null;
         String duration = null;
+        String thumbnailUrl = getThumbnailUrl();
         while(parser.next()!=XmlPullParser.END_TAG){
             if(parser.getEventType()!=XmlPullParser.START_TAG){
                 continue;
@@ -40,7 +43,7 @@ public class VideoItem {
                 skip(parser);
             }
         }
-        return new VideoItem(title,videoUrl,duration);
+        return new VideoItem(title,videoUrl,duration,getThumbnailUrl());
     }
 
     private static String readTitle(XmlPullParser parser, String ns) throws XmlPullParserException, IOException{
@@ -60,7 +63,7 @@ public class VideoItem {
         return url;
     }
 
-    private static String readDuration(XmlPullParser parser, String ns) throws XmlPullParserException, IOException{
+    private String readDuration(XmlPullParser parser, String ns) throws XmlPullParserException, IOException{
         String tag = parser.getName();
         String duration = parser.getAttributeValue(null, "duration");
         Log.e("TAG NAME",tag);
@@ -70,10 +73,22 @@ public class VideoItem {
                 continue;
             }
             String name = parser.getName();
-            skip(parser);
+            if(name.equals("media:thumbnail")){
+                readThumbnail(parser, ns);
+            }else{
+                skip(parser);
+            }
         }
         parser.require(XmlPullParser.END_TAG, ns,"media:content");
         return duration;
+    }
+
+    private void readThumbnail(XmlPullParser parser, String ns) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG,ns, "media:thumbnail");
+        String url = parser.getAttributeValue(null,"url");
+        parser.nextTag();
+        setThumbnailUrl(url);
+        parser.require(XmlPullParser.END_TAG, ns,"media:thumbnail");
     }
 
     private static String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -102,5 +117,37 @@ public class VideoItem {
                     break;
             }
         }
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public  String getThumbnailUrl() {
+        return thumbnailUrl;
     }
 }
