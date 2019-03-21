@@ -30,7 +30,7 @@ public class ViewliftVideoXmlParser {
     private List readFeed(XmlPullParser parser) throws XmlPullParserException, IOException{
         List videoItems = new ArrayList();
 
-        VideoItem videoItem = new VideoItem(null,null,null,null);
+        VideoItem videoItem = new VideoItem(null,null,null,null, null);
         parser.nextTag();
         parser.require(XmlPullParser.START_TAG, ns, "channel");
         while(parser.next()!= XmlPullParser.END_TAG){

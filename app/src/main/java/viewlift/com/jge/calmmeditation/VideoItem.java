@@ -14,12 +14,14 @@ public class VideoItem {
     public String videoUrl;
     public String duration;
     public String thumbnailUrl;
+    public String mediaCategory;
 
-    public VideoItem(String title, String videoUrl, String duration, String thumbnailUrl){
+    public VideoItem(String title, String videoUrl, String duration, String thumbnailUrl, String mediaCategory){
         this.title = title;
         this.videoUrl = videoUrl;
         this.duration = duration;
         this.thumbnailUrl = thumbnailUrl;
+        this.mediaCategory = mediaCategory;
     }
 
     @NonNull
@@ -28,6 +30,7 @@ public class VideoItem {
         String title = null;
         String videoUrl = null;
         String duration = null;
+        String mediaCategory = null;
         String thumbnailUrl = getThumbnailUrl();
         while(parser.next()!=XmlPullParser.END_TAG){
             if(parser.getEventType()!=XmlPullParser.START_TAG){
@@ -39,11 +42,13 @@ public class VideoItem {
             }else if(name.equals("media:content")){
                 videoUrl = readContent(parser, ns);
                 duration = readDuration(parser, ns);
+            }else if(name.equals("media:category")){
+                mediaCategory = readMediaCategory(parser, ns);
             }else{
                 skip(parser);
             }
         }
-        return new VideoItem(title,videoUrl,duration,getThumbnailUrl());
+        return new VideoItem(title,videoUrl,duration,getThumbnailUrl(),mediaCategory);
     }
 
     private static String readTitle(XmlPullParser parser, String ns) throws XmlPullParserException, IOException{
@@ -81,6 +86,13 @@ public class VideoItem {
         }
         parser.require(XmlPullParser.END_TAG, ns,"media:content");
         return duration;
+    }
+
+    private String readMediaCategory(XmlPullParser parser, String ns) throws XmlPullParserException, IOException{
+        parser.require(XmlPullParser.START_TAG,ns, "media:category");
+        String category = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns,"media:category");
+        return category;
     }
 
     private void readThumbnail(XmlPullParser parser, String ns) throws XmlPullParserException, IOException {

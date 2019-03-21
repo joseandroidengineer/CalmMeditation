@@ -29,7 +29,6 @@ public class VideoAdapterViewHolder extends RecyclerView.ViewHolder implements V
 
     }
 
-
     @Override
     public void onClick(View view) {
         int position = getAdapterPosition();
