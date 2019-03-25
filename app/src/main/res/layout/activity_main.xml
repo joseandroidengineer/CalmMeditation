@@ -24,8 +24,8 @@
                 android:visibility="gone"/>
             <TextView
                 android:id="@+id/grass_tv"
-                android:textSize="24sp"
-                android:textColor="#000"
+                android:textSize="32sp"
+                android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <android.support.v7.widget.RecyclerView
@@ -36,8 +36,8 @@
             </android.support.v7.widget.RecyclerView>
             <TextView
                 android:id="@+id/water_tv"
-                android:textSize="24sp"
-                android:textColor="#000"
+                android:textSize="32sp"
+                android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <android.support.v7.widget.RecyclerView
@@ -48,8 +48,8 @@
             </android.support.v7.widget.RecyclerView>
             <TextView
                 android:id="@+id/building_tv"
-                android:textSize="24sp"
-                android:textColor="#000"
+                android:textSize="32sp"
+                android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <android.support.v7.widget.RecyclerView
@@ -60,8 +60,8 @@
             </android.support.v7.widget.RecyclerView>
             <TextView
                 android:id="@+id/all_tv"
-                android:textSize="24sp"
-                android:textColor="#000"
+                android:textSize="32sp"
+                android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <android.support.v7.widget.RecyclerView

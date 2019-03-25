@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -28,6 +27,10 @@ public class MainActivity extends AppCompatActivity implements ListItemClickList
     private RecyclerView waterRecyclerView;
     private RecyclerView buildingRecyclerView;
     private VideoAdapter mVideoAdapter;
+    private GrassVideoAdapter grassVideoAdapter;
+    private BuildingVideoAdapter buildingVideoAdapter;
+    private WaterVideoAdapter waterVideoAdapter;
+
     private ProgressBar mProgressBar;
     private TextView allTV;
     private TextView grassTV;
@@ -69,14 +72,18 @@ public class MainActivity extends AppCompatActivity implements ListItemClickList
         waterRecyclerView.setHasFixedSize(true);
         buildingRecyclerView.setHasFixedSize(true);
         mVideoAdapter = new VideoAdapter(this);
-        allTV.setText("Default");
+        grassVideoAdapter = new GrassVideoAdapter(this);
+        buildingVideoAdapter = new BuildingVideoAdapter(this);
+        waterVideoAdapter = new WaterVideoAdapter(this);
+
+        allTV.setText("Trail And Car");
         grassTV.setText("Grass");
         waterTV.setText("Water");
         buildingTV.setText("Building");
         mRecyclerView.setAdapter(mVideoAdapter);
-        grassRecyclerView.setAdapter(mVideoAdapter);
-        waterRecyclerView.setAdapter(mVideoAdapter);
-        buildingRecyclerView.setAdapter(mVideoAdapter);
+        grassRecyclerView.setAdapter(grassVideoAdapter);
+        waterRecyclerView.setAdapter(waterVideoAdapter);
+        buildingRecyclerView.setAdapter(buildingVideoAdapter);
         new DownloadXmlTask().execute(URL);
     }
 
@@ -102,7 +109,10 @@ public class MainActivity extends AppCompatActivity implements ListItemClickList
         @Override
         protected void onPostExecute(ArrayList<VideoItem> result) {
             videoItems = result;
-            mVideoAdapter.setVideoData(result);
+            mVideoAdapter.setVideoData(Util.getCarsVideos(result));
+            grassVideoAdapter.setVideoData(Util.getGrassVideos(result));
+            waterVideoAdapter.setVideoData(Util.getWaterVideos(result));
+            buildingVideoAdapter.setVideoData(Util.getBuildingVideos(result));
             mProgressBar.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
         }
